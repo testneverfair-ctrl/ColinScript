@@ -1,5 +1,5 @@
 -- Улучшенный скрипт для Blox Fruits by Colin
--- Убраны квесты, увеличена скорость атаки, исправлен выбор оружия
+-- Исправления: Fast Attack, хитбокс увеличен до 12, добавлен ESP на фрукты, функция Bring Mobs
 
 -- Создание графического интерфейса
 local ScreenGui = Instance.new("ScreenGui")
@@ -34,7 +34,7 @@ ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
-MainFrame.Size = UDim2.new(0, 320, 0, 320)
+MainFrame.Size = UDim2.new(0, 320, 0, 350)
 MainFrame.Position = UDim2.new(0, 10, 0, 10)
 MainFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 MainFrame.BorderSizePixel = 2
@@ -46,7 +46,7 @@ Title.Parent = MainFrame
 Title.Size = UDim2.new(1, 0, 0, 30)
 Title.Position = UDim2.new(0, 0, 0, 5)
 Title.BackgroundTransparency = 1
-Title.Text = "Меню Colin Pro"
+Title.Text = "Colin Pro v2.0"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.TextScaled = true
 
@@ -85,7 +85,7 @@ CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 -- Фрейм AutoFarm
 AutoFarmFrame.Name = "AutoFarmFrame"
 AutoFarmFrame.Parent = MainFrame
-AutoFarmFrame.Size = UDim2.new(1, 0, 0, 250)
+AutoFarmFrame.Size = UDim2.new(1, 0, 0, 280)
 AutoFarmFrame.Position = UDim2.new(0, 0, 0, 70)
 AutoFarmFrame.BackgroundTransparency = 1
 AutoFarmFrame.Visible = true
@@ -93,7 +93,7 @@ AutoFarmFrame.Visible = true
 -- Фрейм ESP
 ESPFrame.Name = "ESPFrame"
 ESPFrame.Parent = MainFrame
-ESPFrame.Size = UDim2.new(1, 0, 0, 250)
+ESPFrame.Size = UDim2.new(1, 0, 0, 280)
 ESPFrame.Position = UDim2.new(0, 0, 0, 70)
 ESPFrame.BackgroundTransparency = 1
 ESPFrame.Visible = false
@@ -102,6 +102,7 @@ ESPFrame.Visible = false
 local AutoFarmBtn = Instance.new("TextButton")
 local WeaponBtn = Instance.new("TextButton")
 local FastAttackBtn = Instance.new("TextButton")
+local BringMobsBtn = Instance.new("TextButton")
 local RadiusLabel = Instance.new("TextLabel")
 local RadiusSlider = Instance.new("TextButton")
 local SpeedLabel = Instance.new("TextLabel")
@@ -134,10 +135,19 @@ FastAttackBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 FastAttackBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 FastAttackBtn.TextScaled = true
 
+BringMobsBtn.Name = "BringMobsBtn"
+BringMobsBtn.Parent = AutoFarmFrame
+BringMobsBtn.Size = UDim2.new(0.8, 0, 0, 35)
+BringMobsBtn.Position = UDim2.new(0.1, 0, 0, 145)
+BringMobsBtn.Text = "Bring Mobs: ВЫКЛ"
+BringMobsBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+BringMobsBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+BringMobsBtn.TextScaled = true
+
 RadiusLabel.Name = "RadiusLabel"
 RadiusLabel.Parent = AutoFarmFrame
 RadiusLabel.Size = UDim2.new(0.8, 0, 0, 25)
-RadiusLabel.Position = UDim2.new(0.1, 0, 0, 145)
+RadiusLabel.Position = UDim2.new(0.1, 0, 0, 190)
 RadiusLabel.BackgroundTransparency = 1
 RadiusLabel.Text = "Радиус: 500"
 RadiusLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -145,7 +155,7 @@ RadiusLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 RadiusSlider.Name = "RadiusSlider"
 RadiusSlider.Parent = AutoFarmFrame
 RadiusSlider.Size = UDim2.new(0.8, 0, 0, 25)
-RadiusSlider.Position = UDim2.new(0.1, 0, 0, 170)
+RadiusSlider.Position = UDim2.new(0.1, 0, 0, 215)
 RadiusSlider.Text = "Изменить радиус (100-2000)"
 RadiusSlider.BackgroundColor3 = Color3.fromRGB(60, 100, 160)
 RadiusSlider.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -153,7 +163,7 @@ RadiusSlider.TextColor3 = Color3.fromRGB(255, 255, 255)
 SpeedLabel.Name = "SpeedLabel"
 SpeedLabel.Parent = AutoFarmFrame
 SpeedLabel.Size = UDim2.new(0.8, 0, 0, 25)
-SpeedLabel.Position = UDim2.new(0.1, 0, 0, 195)
+SpeedLabel.Position = UDim2.new(0.1, 0, 0, 240)
 SpeedLabel.BackgroundTransparency = 1
 SpeedLabel.Text = "Скорость: 5"
 SpeedLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -161,7 +171,7 @@ SpeedLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 SpeedSlider.Name = "SpeedSlider"
 SpeedSlider.Parent = AutoFarmFrame
 SpeedSlider.Size = UDim2.new(0.8, 0, 0, 25)
-SpeedSlider.Position = UDim2.new(0.1, 0, 0, 220)
+SpeedSlider.Position = UDim2.new(0.1, 0, 0, 265)
 SpeedSlider.Text = "Изменить скорость (1-10)"
 SpeedSlider.BackgroundColor3 = Color3.fromRGB(100, 60, 160)
 SpeedSlider.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -169,6 +179,7 @@ SpeedSlider.TextColor3 = Color3.fromRGB(255, 255, 255)
 -- Элементы ESP вкладки
 local PlayersESPBtn = Instance.new("TextButton")
 local ChestsESPBtn = Instance.new("TextButton")
+local FruitsESPBtn = Instance.new("TextButton")
 local ESPDistanceLabel = Instance.new("TextLabel")
 local ESPDistanceSlider = Instance.new("TextButton")
 
@@ -190,10 +201,19 @@ ChestsESPBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 ChestsESPBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 ChestsESPBtn.TextScaled = true
 
+FruitsESPBtn.Name = "FruitsESPBtn"
+FruitsESPBtn.Parent = ESPFrame
+FruitsESPBtn.Size = UDim2.new(0.8, 0, 0, 35)
+FruitsESPBtn.Position = UDim2.new(0.1, 0, 0, 100)
+FruitsESPBtn.Text = "ESP Фрукты: ВЫКЛ"
+FruitsESPBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+FruitsESPBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+FruitsESPBtn.TextScaled = true
+
 ESPDistanceLabel.Name = "ESPDistanceLabel"
 ESPDistanceLabel.Parent = ESPFrame
 ESPDistanceLabel.Size = UDim2.new(0.8, 0, 0, 25)
-ESPDistanceLabel.Position = UDim2.new(0.1, 0, 0, 100)
+ESPDistanceLabel.Position = UDim2.new(0.1, 0, 0, 145)
 ESPDistanceLabel.BackgroundTransparency = 1
 ESPDistanceLabel.Text = "Дистанция ESP: 5000"
 ESPDistanceLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -201,7 +221,7 @@ ESPDistanceLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 ESPDistanceSlider.Name = "ESPDistanceSlider"
 ESPDistanceSlider.Parent = ESPFrame
 ESPDistanceSlider.Size = UDim2.new(0.8, 0, 0, 25)
-ESPDistanceSlider.Position = UDim2.new(0.1, 0, 0, 125)
+ESPDistanceSlider.Position = UDim2.new(0.1, 0, 0, 170)
 ESPDistanceSlider.Text = "Изменить дистанцию (1000-10000)"
 ESPDistanceSlider.BackgroundColor3 = Color3.fromRGB(60, 100, 160)
 ESPDistanceSlider.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -214,8 +234,11 @@ local SelectedWeapon = "Melee"
 local CurrentEquippedWeapon = nil
 local PlayersESPEnabled = false
 local ChestsESPEnabled = false
+local FruitsESPEnabled = false
 local AttackSpeedLevel = 0
 local ESPDistance = 5000
+local BringMobsEnabled = false
+local BringMobsRadius = 100
 local TweenService = game:GetService("TweenService")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
@@ -277,7 +300,7 @@ local function CreatePlatform()
     return Platform
 end
 
--- Функция увеличения HumanoidRootPart и включения NoClip
+-- Функция увеличения HumanoidRootPart до 12 и включения NoClip
 local function EnhanceHRP()
     local character = LocalPlayer.Character
     if not character then return end
@@ -289,7 +312,8 @@ local function EnhanceHRP()
         OriginalHRPSize = humanoidRootPart.Size
     end
     
-    humanoidRootPart.Size = Vector3.new(9, 9, 9)
+    -- Увеличение хитбокса до 12
+    humanoidRootPart.Size = Vector3.new(12, 12, 12)
     humanoidRootPart.CanCollide = false
     
     for _, part in pairs(character:GetChildren()) do
@@ -298,7 +322,7 @@ local function EnhanceHRP()
         end
     end
     
-    print("HumanoidRootPart увеличен, NoClip включен")
+    print("Хитбокс увеличен до 12, NoClip включен")
 end
 
 -- Функция восстановления оригинального размера HumanoidRootPart
@@ -315,7 +339,7 @@ local function RestoreHRP()
     print("HumanoidRootPart восстановлен")
 end
 
--- Исправленная функция выбора оружия (выбирает сразу при включении автофарма)
+-- Исправленная функция выбора оружия
 local function EquipWeapon()
     local character = LocalPlayer.Character
     if not character then return false end
@@ -461,7 +485,7 @@ local function MoveToEnemy(enemy)
     return true
 end
 
--- Улучшенные функции атаки с увеличенной скоростью и без анимаций
+-- ИСПРАВЛЕННЫЕ функции атаки
 local function NormalAttack()
     local virtualInput = game:GetService("VirtualInputManager")
     
@@ -473,30 +497,33 @@ end
 local function FastAttack()
     local virtualInput = game:GetService("VirtualInputManager")
     
-    for i = 1, 4 do
+    for i = 1, 8 do
         virtualInput:SendMouseButtonEvent(0, 0, 0, true, game, 0)
-        task.wait(0.008)
+        task.wait(0.001)  -- Уменьшенный интервал для большей скорости
         virtualInput:SendMouseButtonEvent(0, 0, 0, false, game, 0)
+        task.wait(0.001)
     end
 end
 
 local function VeryFastAttack()
     local virtualInput = game:GetService("VirtualInputManager")
     
-    for i = 1, 8 do
+    for i = 1, 12 do
         virtualInput:SendMouseButtonEvent(0, 0, 0, true, game, 0)
-        task.wait(0.004)
+        task.wait(0.0008)
         virtualInput:SendMouseButtonEvent(0, 0, 0, false, game, 0)
+        task.wait(0.0008)
     end
 end
 
 local function SuperFastAttack()
     local virtualInput = game:GetService("VirtualInputManager")
     
-    for i = 1, 12 do
+    for i = 1, 16 do
         virtualInput:SendMouseButtonEvent(0, 0, 0, true, game, 0)
-        task.wait(0.002)
+        task.wait(0.0005)
         virtualInput:SendMouseButtonEvent(0, 0, 0, false, game, 0)
+        task.wait(0.0005)
     end
 end
 
@@ -510,6 +537,32 @@ local function AttackWithWeapon()
         SuperFastAttack()
     else
         NormalAttack()
+    end
+end
+
+-- Функция Bring Mobs (притягивает nearby мобов к цели)
+local function BringMobs(targetEnemy)
+    if not targetEnemy or not targetEnemy:FindFirstChild("HumanoidRootPart") then
+        return
+    end
+    
+    local targetPosition = targetEnemy.HumanoidRootPart.Position
+    local enemies = workspace:FindFirstChild("Enemies")
+    
+    if not enemies then return end
+    
+    for _, npc in pairs(enemies:GetChildren()) do
+        if npc ~= targetEnemy and npc:FindFirstChild("Humanoid") and 
+           npc.Humanoid.Health > 0 and npc:FindFirstChild("HumanoidRootPart") then
+            
+            local distance = (targetPosition - npc.HumanoidRootPart.Position).Magnitude
+            if distance <= BringMobsRadius then
+                -- Притягиваем моба к цели
+                npc.HumanoidRootPart.CFrame = CFrame.new(targetPosition + Vector3.new(
+                    math.random(-3, 3), 0, math.random(-3, 3)
+                ))
+            end
+        end
     end
 end
 
@@ -630,6 +683,60 @@ local function ToggleChestsESP()
     end
 end
 
+-- НОВАЯ функция ESP для фруктов
+local function ToggleFruitsESP()
+    FruitsESPEnabled = not FruitsESPEnabled
+    
+    if FruitsESPEnabled then
+        -- Поиск всех фруктов в workspace
+        for _, obj in pairs(workspace:GetDescendants()) do
+            if obj:FindFirstChild("Handle") and string.find(string.lower(obj.Name), "fruit") then
+                local highlight = Instance.new("Highlight")
+                highlight.Parent = obj
+                highlight.FillColor = Color3.fromRGB(144, 0, 255)  -- Фиолетовый для фруктов
+                highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+                highlight.Name = "FruitESP"
+                
+                local billboard = Instance.new("BillboardGui")
+                billboard.Name = "FruitNameESP"
+                billboard.Adornee = obj.Handle
+                billboard.Size = UDim2.new(0, 100, 0, 25)
+                billboard.StudsOffset = Vector3.new(0, 3, 0)
+                billboard.AlwaysOnTop = true
+                billboard.MaxDistance = ESPDistance
+                billboard.Parent = obj.Handle
+                
+                local nameLabel = Instance.new("TextLabel")
+                nameLabel.Parent = billboard
+                nameLabel.Size = UDim2.new(1, 0, 1, 0)
+                nameLabel.BackgroundTransparency = 1
+                nameLabel.Text = obj.Name
+                nameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+                nameLabel.TextScaled = true
+                nameLabel.Font = Enum.Font.GothamBold
+                nameLabel.TextStrokeTransparency = 0
+                nameLabel.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+            end
+        end
+        
+        FruitsESPBtn.Text = "ESP Фрукты: ВКЛ"
+        FruitsESPBtn.BackgroundColor3 = Color3.fromRGB(144, 0, 255)
+    else
+        -- Удаление ESP фруктов
+        for _, obj in pairs(workspace:GetDescendants()) do
+            if obj:FindFirstChild("FruitESP") then
+                obj.FruitESP:Destroy()
+            end
+            if obj:FindFirstChild("Handle") and obj.Handle:FindFirstChild("FruitNameESP") then
+                obj.Handle.FruitNameESP:Destroy()
+            end
+        end
+        
+        FruitsESPBtn.Text = "ESP Фрукты: ВЫКЛ"
+        FruitsESPBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+    end
+end
+
 -- Основная функция автофарма
 local function AutoFarmFunction()
     local platform = CreatePlatform()
@@ -691,6 +798,11 @@ local function AutoFarmFunction()
             
             MoveToEnemy(closestNPC)
             AttackWithWeapon()
+            
+            -- Притягиваем мобов если включена функция
+            if BringMobsEnabled then
+                BringMobs(closestNPC)
+            end
         else
             if lastEnemy then
                 UnpinEnemy(lastEnemy)
@@ -777,6 +889,17 @@ FastAttackBtn.MouseButton1Click:Connect(function()
     end
 end)
 
+BringMobsBtn.MouseButton1Click:Connect(function()
+    BringMobsEnabled = not BringMobsEnabled
+    if BringMobsEnabled then
+        BringMobsBtn.Text = "Bring Mobs: ВКЛ"
+        BringMobsBtn.BackgroundColor3 = Color3.fromRGB(60, 160, 160)
+    else
+        BringMobsBtn.Text = "Bring Mobs: ВЫКЛ"
+        BringMobsBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+    end
+end)
+
 RadiusSlider.MouseButton1Click:Connect(function()
     if FarmRadius < 1000 then
         FarmRadius = FarmRadius + 100
@@ -808,6 +931,10 @@ ChestsESPBtn.MouseButton1Click:Connect(function()
     ToggleChestsESP()
 end)
 
+FruitsESPBtn.MouseButton1Click:Connect(function()
+    ToggleFruitsESP()
+end)
+
 ESPDistanceSlider.MouseButton1Click:Connect(function()
     ESPDistance = ESPDistance + 1000
     if ESPDistance > 10000 then
@@ -824,6 +951,10 @@ ESPDistanceSlider.MouseButton1Click:Connect(function()
         ToggleChestsESP()
         ToggleChestsESP()
     end
+    if FruitsESPEnabled then
+        ToggleFruitsESP()
+        ToggleFruitsESP()
+    end
 end)
 
 CloseBtn.MouseButton1Click:Connect(function()
@@ -834,5 +965,5 @@ end)
 -- Инициализация
 ShowAutoFarmTab()
 
-print("Улучшенный скрипт Colin Pro запущен!")
-print("Исправления: Убраны квесты, увеличена скорость атаки, исправлен выбор оружия")
+print("Улучшенный скрипт Colin Pro v2.0 запущен!")
+print("Исправления: Fast Attack, хитбокс 12, ESP фрукты, Bring Mobs")
